@@ -1,0 +1,43 @@
+{% extends 'dash.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        {% if sodata %}
+        <div class="row mb-5">
+            <div class="col text-center mt-3">
+                <h2>Socials Setup</h2>
+                <a href="{% url 'editsocial' sodata.id %}">Edit</a>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <h2>{{sodata.data_set}}:</h2>
+                    <p><strong>Facebook: </strong> {{ sodata.facebook_url }}</p>
+                    <p><strong>Instagram: </strong> {{ sodata.instagram_url }}</p>
+                    <p><strong>Twitter: </strong> {{ sodata.twitter_url }}</p>
+                    <p><strong>LinkedIn: </strong> {{ sodata.linkedIn_url }}</p>
+                    <p><strong>Youtube: </strong> {{ sodata.youtube_url }}</p>
+                    <p><strong>{{sodata.data_set}} created at:</strong> {{ sodata.created_at }}</p>
+
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col text-center">
+                <a href="{% url 'addsocial' %}">Add</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+</div>
+</div>
+{% endblock %}

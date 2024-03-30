@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row mb-5">
+            <div class="col text-center">
+                <h2>{{vacancy.title |capfirst }}</h2>
+                {% if vacancy.status == 'Open' %}
+                <div class="col">
+                    <a href="mailto:{{data.email}}" class="btn btn-primary">Apply</a>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <p>Status: {{vacancy.status}}</p>
+                        </div>
+                        <!-- <div class="col">
+                            <a href="mailto:{{data.email}}" class="btn btn-primary">Apply</a>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>Number: {{vacancy.number}}</p>
+                            <p>Deadline: {{vacancy.deadline}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <p>Description: </p>
+                            <p>{{vacancy.desc |capfirst }}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <a href="{% url 'carrers' %}">
+                    <p>See More Vacancy...</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

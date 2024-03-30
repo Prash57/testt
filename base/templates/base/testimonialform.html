@@ -1,0 +1,33 @@
+{% extends 'dash.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row mb-5">
+            <div class="col text-center mt-3">
+                <h2>Add Testimonial</h2>
+                <a href="{% url 'viewtestimonials' %}">Back</a>
+
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{form.as_p}}
+
+                        <div class="row mb-5">
+                            <div class="col">
+                                <button class="btn btn-primary py-3" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

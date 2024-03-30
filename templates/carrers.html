@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row mb-5">
+            <div class="col text-center">
+                <h2>Carrers</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-6">
+                {% for vacancy in vacancys %}
+                <div class="card mb-5">
+                    <div class="row g-0" style="background: rgb(240, 240, 240);">
+                        <div class="col"">
+                            <div class=" card-body">
+                            <div class="row align-items-end">
+                                <div class="col">
+                                    <a href="{% url 'carrer' vacancy.slug %}">
+                                        <h5 class="card-title"> Post: {{vacancy.title |capfirst }}</h5>
+                                    </a>
+                                </div>
+                                <div class="col text-end">
+                                    <b>Status: {{vacancy.status}}</b>
+                                </div>
+                            </div>
+                            <b> Number: {{vacancy.number}}</b>
+                            <p class="card-text"><b>Deadline:</b>
+                                {{vacancy.deadline}}
+                            </p>
+                            <b class="card-text"> Description:</b>
+                            <p> {{vacancy.desc |capfirst }}</p>
+                            <a href="{% url 'carrer' vacancy.slug %}" class="btn btn-primary">Readmore...</a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

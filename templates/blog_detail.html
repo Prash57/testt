@@ -1,0 +1,73 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="container-xxl bg-white p-0">
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col text-center mt-3">
+                <h2>{{blog.title |capfirst }}</h2>
+                {% if blog.sub_title %}
+                <p class="lead">{{blog.sub_title |capfirst }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <a href="{% url 'blogs' %}" class="btn btn-primary">Back</a>
+
+                <p><b>Author: </b><span> {{blog.author |capfirst }}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Date:</b>
+                    <span>{{blog.created_at}}</span>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-5 text-center">
+
+                <img src="{{blog.image.url}}" class="w-75" style="image-rendering: auto;" alt="">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+
+            <div class="col-10">
+                <div>
+                    <p><b>Author: </b><span> {{blog.author |capfirst }}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Date:</b>
+                        <span>{{blog.created_at}}</span>
+                    </p>
+                </div>
+                <p class="lead">{{blog.content|safe}}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+            <div class="col-10 main-comment-section mb-5">
+                <div class="mt-5">
+                    <b>{{ comments.count }} Comment{{ comments|pluralize }}</b>
+                    <hr class="w-25">
+                </div>
+                {% for comment in comments %}
+                <blockquote class="blockquote">
+                    <p class="mb-2">{{ comment.body }}</p>
+                    <footer class="blockquote-footer">By: <cite title="Source Title">{{ comment.name|capfirst}}</cite>
+                    </footer>
+                </blockquote>
+
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <hr class="w-50">
+        <div class="row mb-5 justify-content-center">
+            <div class="col-10">
+            <div class="col-6">
+                <h5>Leave a comment</h5>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ comment_form }}
+
+                    <button type="submit" class="btn btn-primary mt-3 mb-3" style="float: right;">Submit</button>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

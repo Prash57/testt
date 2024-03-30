@@ -1,0 +1,41 @@
+{% extends 'dash.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h2>Popups List</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col text-center">
+                <a href="{% url 'addpopup' %}">Add</a>
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
+            {% for modal in pdata %}
+            <div class="col mb-5">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <div>
+                            <h5 class="card-title">{{modal.title}}</h5>
+                            <a href="{% url 'editpopup' modal.id %}">Edit</a>
+                            <a href="{% url 'deletepopup' modal.id %}">Delete</a>
+                        </div>
+                        <b>{{modal.created_at}}</b>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+</div>
+{% endblock %}

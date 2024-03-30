@@ -1,0 +1,79 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .fixed-size-image {
+        width: 286px;
+        /* Adjust the width as needed */
+        height: 180px;
+        /* Adjust the height as needed */
+        object-fit: cover;
+        /* Maintain aspect ratio while covering the specified size */
+    }
+   
+</style>
+<div class="container-xxl bg-white p-0">
+    <div class="row">
+        <div class="col text-center">
+            <h2>Our Blogs</h2>
+            <p class="lead">Creativity of the Students</p>
+        </div>
+    </div>
+    <div class="row mt-5 p-5">
+        {% for blog in blogs %}
+        <div class="col mb-5">
+            <div class="card" style="width: 18rem;">
+                <img src="{{blog.image.url}}" class="card-img-top fixed-size-image" alt="...">
+                <div class="card-body">
+                    <a href="{% url 'blog' blog.slug %}">
+                        <h5 class="card-title">{{blog.title|capfirst }}</h5>
+                    </a>
+                    <b>{{blog.author}}</b>
+                    <p class="card-text">{{blog.content|safe | slice:"150"}}</p>
+                    <a href="{% url 'blog' blog.slug %}" class="btn btn-primary">Read more</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <!-- pagination -->
+    <footer>
+        <div class="row justify-content-center">
+            {% if blogs.has_other_pages %}
+            <div class="pagination-container text-center">
+                <ul class="pagination justify-content-center">
+
+                    {% if blogs.has_previous %}
+                    <li class="page-item"><a data-page="{{blogs.previous_page_number}}"
+                            href="?page={{blogs.previous_page_number}}" class="page-link">&laquo;</a></li>
+
+                    <li class="page-item"><a data-page="1" href="?page=1" class="page-link">First</a></li>
+                    {% endif %}
+
+                    {% for i in blogs.paginator.page_range %}
+                    {% if blogs.number == i %}
+                    <li class="page-item active"><a class="page-link">{{i}}</a></li> <!-- Add 'active' class here -->
+                    {% else %}
+                    <li class="page-item"><a data-page="{{i}}" href="?page={{i}}" class="page-link">{{i}}</a></li>
+                    {% endif %}
+
+                    {% endfor %}
+
+                    {% if blogs.has_next %}
+                    <li class="page-item"><a data-page="{{blogs.paginator.num_pages}}"
+                            href="?page={{blogs.paginator.num_pages}}" class="page-link">Last</a></li>
+
+                    <li class="page-item"><a data-page="{{blogs.next_page_number}}"
+                            href="?page={{blogs.next_page_number}}" class="page-link">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </footer>
+
+</div>
+{% endblock %}

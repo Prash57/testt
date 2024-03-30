@@ -1,0 +1,41 @@
+{% extends 'dash.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h2>FAQs List</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col text-center">
+                <a href="{% url 'addfaq' %}">Add</a>
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
+            {% for faq in fdata %}
+            <div class="col mb-5">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <div>
+                            <h5 class="card-title">{{faq.question}}</h5>
+                            <a href="{% url 'editfaq' faq.id %}">Edit</a>
+                            <a href="{% url 'deletefaq' faq.id %}">Delete</a>
+                        </div>
+                        <b>{{faq.created_at}}</b>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+</div>
+{% endblock %}

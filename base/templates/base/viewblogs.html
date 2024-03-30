@@ -1,0 +1,47 @@
+{% extends 'dash.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h2>Blogs List</h2>
+            </div>
+        </div>
+        <div class="container-xxl bg-white p-0">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col text-center">
+                        <a href="{% url 'addblog' %}">Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            {% for blog in blogs %}
+            <div class="col mb-5">
+                <div class="card" style="width: 18rem;">
+                    <!-- <img src="{{blog.image.url}}" class="card-img-top" alt="..."> -->
+                    <div class="card-body">
+                        <div>
+                            <a href="{% url 'blog' blog.id %}">
+                                <h5 class="card-title">{{blog.title}}</h5>
+                            </a>
+                            <a href="{% url 'editblog' blog.slug %}">Edit</a>
+                            <a href="{% url 'deleteblog' blog.slug %}">Delete</a>
+                        </div>
+
+                        <b>{{blog.author}}</b>
+                        <!-- <p class="card-text">{{blog.content | slice:"150"}}</p> -->
+                        <a href="{% url 'blog' blog.slug %}" class="btn btn-primary">More -></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

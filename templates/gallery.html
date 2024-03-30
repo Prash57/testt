@@ -1,0 +1,218 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .gallery {
+        display: flex;
+        justify-content: center;
+    }
+
+    .gallery-images {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .gallery-item {
+        flex: 0 0 calc(25% - 10px);
+        /* By default, show 4 images per row */
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none;
+    }
+
+    .full-view {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        display: none;
+        width: 600px;
+        /* Set a fixed width for the full view container */
+        max-width: calc(100% - 20px);
+        /* Limit width to the screen width minus padding */
+        max-height: calc(100% - 20px);
+        /* Limit height to the screen height minus padding */
+        overflow: auto;
+        /* Add scrollbars if image exceeds container size */
+    }
+
+    .full-img {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .nav-btns {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        z-index: 1000;
+        /* Ensure buttons appear above overlay */
+    }
+
+    .prev-btn,
+    .next-btn {
+        cursor: pointer;
+        padding: 5px 10px;
+        background-color: #333;
+        color: white;
+    }
+
+    .prev-btn:hover,
+    .next-btn:hover {
+        background-color: #555;
+    }
+   
+</style>
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center mb-5">
+                <h2>Gallery</h2>
+            </div>
+        </div>
+
+        <div class="gallery">
+            <div class="gallery-images">
+                {% for photo in photos %}
+                <div class="gallery-item">
+                    <img src="{{ photo.image.url }}" alt="" width="300">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="overlay"></div>
+        <div class="full-view">
+            <span class="close-btn">&times;</span>
+            <img class="full-img" src="" alt="Full Image">
+            <div class="nav-btns">
+                <span class="prev-btn">&lt;</span>
+                <span class="next-btn">&gt;</span>
+            </div>
+        </div>
+
+        <!-- pagination -->
+        <!-- <footer>
+            <div class="row justify-content-center">
+                {% if photos.has_other_pages %}
+                <div class="pagination-container text-center">
+                    <ul class="pagination justify-content-center">
+    
+                        {% if photos.has_previous %}
+                        <li class="page-item"><a data-page="{{photos.previous_page_number}}"
+                                href="?page={{photos.previous_page_number}}" class="page-link">&laquo;</a></li>
+    
+                        <li class="page-item"><a data-page="1" href="?page=1" class="page-link">First</a></li>
+                        {% endif %}
+    
+                        {% for i in photos.paginator.page_range %}
+                        {% if photos.number == i %}
+                        <li class="page-item active"><a class="page-link">{{i}}</a></li> 
+                        {% else %}
+                        <li class="page-item"><a data-page="{{i}}" href="?page={{i}}" class="page-link">{{i}}</a></li>
+                        {% endif %}
+    
+                        {% endfor %}
+    
+                        {% if photos.has_next %}
+                        <li class="page-item"><a data-page="{{photos.paginator.num_pages}}"
+                                href="?page={{photos.paginator.num_pages}}" class="page-link">Last</a></li>
+    
+                        <li class="page-item"><a data-page="{{photos.next_page_number}}"
+                                href="?page={{photos.next_page_number}}" class="page-link">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </footer> -->
+    
+
+        <!--  -->
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const galleryImages = document.querySelectorAll(".gallery img");
+        const overlay = document.querySelector(".overlay");
+        const fullView = document.querySelector(".full-view");
+        const fullImage = document.querySelector(".full-img");
+        const closeBtn = document.querySelector(".close-btn");
+        const prevBtn = document.querySelector(".prev-btn");
+        const nextBtn = document.querySelector(".next-btn");
+        let currentIndex = 0;
+
+        function openFullView(index) {
+            fullImage.src = galleryImages[index].src;
+            fullView.style.display = "block";
+            overlay.style.display = "block";
+            currentIndex = index;
+        }
+
+        function closeFullView() {
+            fullView.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        function showNextImage() {
+            currentIndex = (currentIndex + 1) % galleryImages.length;
+            fullImage.src = galleryImages[currentIndex].src;
+        }
+
+        function showPreviousImage() {
+            currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+            fullImage.src = galleryImages[currentIndex].src;
+        }
+
+        galleryImages.forEach((image, index) => {
+            image.addEventListener("click", () => {
+                openFullView(index);
+            });
+        });
+
+        closeBtn.addEventListener("click", closeFullView);
+        overlay.addEventListener("click", closeFullView);
+        prevBtn.addEventListener("click", showPreviousImage);
+        nextBtn.addEventListener("click", showNextImage);
+    });
+
+</script>
+
+{% endblock %}

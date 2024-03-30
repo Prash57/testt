@@ -1,0 +1,40 @@
+{% extends 'dash.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h2>Gallery List</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col text-center">
+                <a href="{% url 'addphoto' %}">Add</a>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for photo in photos %}
+            <div class="col">
+                <div class="gallery">
+                    <div class="gallery-images">
+                        <div class="gallery-item">
+                            <img src="{{ photo.image.url }}" alt="" width="300">
+                        </div>
+                        <div>
+                            <a href="{% url 'editphoto' photo.id %}">Edit</a>
+                            <a href="{% url 'deletephoto' photo.id %}">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

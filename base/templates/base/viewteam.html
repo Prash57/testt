@@ -1,0 +1,42 @@
+{% extends 'dash.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h2>Team Members List</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col text-center">
+                <a href="{% url 'addteammember' %}">Add</a>
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
+            {% for team in tdata %}
+            <div class="col mb-5">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <div>
+                            <h5 class="card-title">{{team.name}}</h5>
+                            <h5 class="card-title">{{team.position}}</h5>
+                            <a href="{% url 'editteammember' team.id %}">Edit</a>
+                            <a href="{% url 'deleteteammember' team.id %}">Delete</a>
+                        </div>
+                        <b>Joined: {{team.created_at}}</b>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+</div>
+{% endblock %}

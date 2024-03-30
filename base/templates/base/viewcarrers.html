@@ -1,0 +1,59 @@
+{% extends 'dash.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h2>Carrers List</h2>
+            </div>
+        </div>
+
+        <div class="container-xxl bg-white p-0">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col text-center">
+                        <a href="{% url 'addvacancy' %}">Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            {% for vacancy in vacancys %}
+            <div class="col mb-5">
+                <div class="card" style="width: 18rem;">
+                    <!-- <img src="{{blog.image.url}}" class="card-img-top" alt="..."> -->
+                    <div class="card-body">
+                        <div>
+                            <div class="row">
+                                <div class="col-7">
+                                    <a href="{% url 'carrer' vacancy.slug %}">
+                                        <h5 class="card-title">{{vacancy.title}}</h5>
+                                    </a>
+                                </div>
+                                <div class="col-5">
+                                    <a href="{% url 'carrer' vacancy.slug %}" class="btn btn-primary">More -></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p>{{vacancy.status}}</p>
+                                </div>
+                            </div>
+
+                            <a href="{% url 'editvacancy' vacancy.slug %}">Edit</a> ||
+                            <a href="{% url 'deletevacancy' vacancy.slug %}">Delete</a>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

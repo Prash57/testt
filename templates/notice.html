@@ -1,0 +1,112 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        text-align: center;
+        /* Center the image and button */
+    }
+
+    .overlay img {
+        max-width: 90%;
+        max-height: 90%;
+        margin-top: 10vh;
+        /* Adjust vertical position */
+        position: relative;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 10px;
+        color: white;
+        cursor: pointer;
+        z-index: 10000;
+    }
+</style>
+
+<div class="container-xxl bg-white p-0">
+    <div class="container-fluid">
+        <div class="row mb-5">
+            <div class="col text-center">
+                <h2>Notices</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-6">
+                {% for notice in notices %}
+                <div class="card mb-5">
+                    <div class="row g-0"  style="background: rgb(240, 240, 240);">
+                        <div class="col"">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ notice.title |capfirst }}</h5>
+                                <p class="card-text"><small class="text-body-secondary"><b>Date:</b>
+                                        {{notice.created_at}}</small>
+                                </p>
+                                <p class="card-text">{{ notice.body |capfirst }}</p>
+
+                            </div>
+
+                        </div>
+
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col"">
+                            {% if notice.image %}
+                            {% if notice.image.url %}
+                            <a href=" #" class="image-link" data-src="{{ notice.image.url }}">
+                            <img src="{{ notice.image.url }}" class="card-img-bottom" alt="...">
+                            </a>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- HTML Structure -->
+
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const imageLinks = document.querySelectorAll('.image-link');
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+        document.body.appendChild(overlay);
+
+        imageLinks.forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const imageUrl = this.getAttribute('data-src');
+                overlay.innerHTML = '<span class="close-button">&times;</span><img src="' + imageUrl + '">';
+                overlay.style.display = 'block';
+            });
+        });
+
+        overlay.addEventListener('click', function (e) {
+            if (e.target.classList.contains('overlay') || e.target.classList.contains('close-button')) {
+                overlay.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}
+<!-- CSS -->
